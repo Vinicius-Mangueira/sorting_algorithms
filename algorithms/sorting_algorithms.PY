@@ -34,4 +34,20 @@ def readingtest(tests):
         numbers = [int(line.strip()) for line in file if line.strip().isdigit()]
     return numbers
 
-tests = ["Instances_for_sorting_algorithms.txt"] 
+tests =["num.1000.1.in",
+        "num.1000.2.in",
+        "num.1000.3.in"
+        "num.1000.4.in",
+        "num.10000.1.in",
+        "num.10000.2.in",
+        "num.10000.3.in",
+        "num.10000.4.in",
+        "num.100000.1.in",
+        "num.100000.2.in",
+        "num.100000.3.in"
+        "num.100000.4.in",]
+
+def Tests_algorithms():
+
+    #test with Insertion Sort
+    start_time = time.time()
