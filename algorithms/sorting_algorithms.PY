@@ -1,53 +1,51 @@
-#Importing necessary libraries
+#!/usr/bin/env python3
 import time
-# Sorting Algorithms Implementation
-# Insertion Sort Algorithm
-def IsertionSort(A,n):
-    pivo =  None
-    for i in range(1,n):
-        pivo = A[i]
+import os
+
+def selection_sort(a):
+    for i in range(len(a) - 1):
+        minj = i
+        for j in range(i + 1, len(a)):
+            if a[j] < a[minj]:
+                minj = j
+        a[i], a[minj] = a[minj], a[i]
+
+def insertion_sort(a):
+    for i in range(1, len(a)):
+        x = a[i]
         j = i - 1
-        while j >= 0 and A[j] > pivo:
-            A[j + 1] = A[j]
+        while j >= 0 and a[j] > x:
+            a[j + 1] = a[j]
             j -= 1
-        A[j + 1] = pivo
-    return A
+        a[j + 1] = x
 
+def read_numbers(path):
+    with open(path, 'r') as f:
+        return [int(x) for x in f.read().split()]
 
-# Selection Sort Algorithm Implementation
-def selectionSort(A,n):
-    for i in range(0, n - 1):
-        i_min = i
-        for j in range(i + 1, n):
-            if A[j] < A[i_min]:
-                i_min = j
-        if(A[i] != A[i_min]):
-            temp = A[i]
-            A[i] = A[i_min]
-            A[i_min] = temp
-    return A
+def main():
+    PASTA = "algorithms/Instances_for_sorting_algorithms"  
+    if not os.path.isdir(PASTA):
+        print(f"Pasta não encontrada: {PASTA}")
+        return
 
-#Function to read numbers from a file
-def readingtest(tests):
-    #Reads numbers from a specified file and returns them as a list.
-    with open(tests, 'r') as file:
-        numbers = [int(line.strip()) for line in file if line.strip().isdigit()]
-    return numbers
+    for nome in sorted(os.listdir(PASTA)):
+        if not nome.endswith(".in"):
+            continue
+        caminho = os.path.join(PASTA, nome)
+        nums = read_numbers(caminho)
 
-tests =["num.1000.1.in",
-        "num.1000.2.in",
-        "num.1000.3.in"
-        "num.1000.4.in",
-        "num.10000.1.in",
-        "num.10000.2.in",
-        "num.10000.3.in",
-        "num.10000.4.in",
-        "num.100000.1.in",
-        "num.100000.2.in",
-        "num.100000.3.in"
-        "num.100000.4.in",]
+        t0 = time.time()
+        selection_sort(nums.copy())
+        t1 = time.time()
+        insertion_sort(nums.copy())
+        t2 = time.time()
 
-def Tests_algorithms():
+        print(f"\nArquivo: {nome}")
+        print(f"  SelectionSort: {t1 - t0:.4f} s")
+        print(f"  InsertionSort: {t2 - t1:.4f} s")
+        vencedor = "SelectionSort" if (t1 - t0) < (t2 - t1) else "InsertionSort"
+        print(f"  → {vencedor} foi mais rápido")
 
-    #test with Insertion Sort
-    start_time = time.time()
+if __name__ == "__main__":
+    main()
